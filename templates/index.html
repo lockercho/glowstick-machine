@@ -96,6 +96,7 @@
 	function render() {
 		handleText();
 		handleVisible();
+		console.log('MODE', state.mode)
 	}
 
 	function onQRCodeSuccess() {
@@ -116,7 +117,7 @@
 		state.visible.instruction_hover = true;
 		state.text.instruction_hover = '讀取中，請勿移動';
 		render();
-		setTimeout(onUUCardSuccess, 800);
+		// setTimeout(onUUCardSuccess, 800);
 	}
 
 	function onUUCardFailure() {
@@ -178,13 +179,13 @@
 		try {
 			var data = JSON.parse(message);
 			if(data.tag == 'rfid' && state.mode == 'wait_qr') {
-				onQRCodeSuccess();
+				return onQRCodeSuccess();
 			}
 			if(data.tag == 'rfid' && state.mode == 'wait_uu') {
-				onUUCardDetected();
+				return onUUCardDetected();
 			}
 			if(data.tag == 'rfid' && state.mode == 'read_uu') {
-				onUUCardSuccess();
+				return onUUCardSuccess();
 			}
 		} catch(e) {}
 	});
