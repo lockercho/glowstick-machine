@@ -103,14 +103,16 @@
 		state.text.instruction_hover = '掃描成功';
 		render();
 		setTimeout(function() {
+			state.mode = 'wait_uu';
 			state.text.lower_text = '請感應悠遊卡<br>XXXX';
 			state.visible.instruction_hover = false;
 			render();
-			setTimeout(onUUCardDetected, 800)
+			// setTimeout(onUUCardDetected, 800)
 		}, 800);
 	}
 
 	function onUUCardDetected() {
+		state.mode = 'read_uu';
 		state.visible.instruction_hover = true;
 		state.text.instruction_hover = '讀取中，請勿移動';
 		render();
@@ -125,6 +127,7 @@
 	}
 
 	function onUUCardSuccess() {
+		state.mode = 'wait_take';
 		state.visible.instruction_hover = false;
 		state.text.instruction_hover = '';
 		state.text.lower_text = '';
@@ -166,7 +169,7 @@
 		render()
 	})
 
-	var socket = io.connect('http://localhost:5000');
+	var socket = io.connect();
 	socket.on('connect', function() {
 	    socket.emit('message', 'I\'m connected!');
 	});
@@ -176,6 +179,12 @@
 			var data = JSON.parse(message);
 			if(data.tag == 'rfid' && state.mode == 'wait_qr') {
 				onQRCodeSuccess();
+			}
+			if(data.tag == 'rfid' && state.mode == 'wait_uu') {
+				onUUCardDetected();
+			}
+			if(data.tag == 'rfid' && state.mode == 'read_uu') {
+				onUUCardSuccess();
 			}
 		} catch(e) {}
 	});
