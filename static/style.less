@@ -1,0 +1,165 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+}
+
+body {
+	position: relative;
+}
+
+#main {
+	width: 100%;
+	height: 65%;
+	position: absolute;
+	top: 15%;
+	background-color: #fff;
+}
+
+#logo {
+	@size: 120px;
+	background: url('logo.png') center no-repeat;
+	background-size: 80%;
+	background-color: #fff;
+	width: @size;
+	height: @size;
+	border-radius: @size / 2;
+	position: absolute;
+	z-index:2;
+	top: -@size/2;
+	left: 50%;
+	margin-left: -@size/2;
+}
+
+
+#welcome {
+	@size: 260px;
+	background-size: 80%;
+	background-color: #90caf9;
+	width: @size;
+	height: @size;
+	border-radius: @size;
+	position: absolute;
+	z-index:2;
+	bottom: -@size/3;
+	left: 50%;
+	margin-left: -@size/2;
+	text-align: center;
+	line-height: 48px;
+	font-size: 26px;
+	padding-top: 70px;
+}
+
+#advertise {
+	width: 100%;
+	height: 100%;
+	background: url('advertise2.jpg') center no-repeat;
+	background-size: auto 100%;
+}
+
+#lower_text {
+	color: #fff;
+	font-size: 26px;
+	text-align: center;
+	width: 100%;
+	height: 20%;
+	position: absolute;
+	bottom: 0;
+	padding-top: 40px;
+	font-size: 30px;
+	line-height: 48px;
+}
+
+#return {
+	background-color: #eeeeee;
+	position: absolute;
+	width: 180px;
+    height: 7%;
+    top: 4%;
+    left: 8%;
+    border-radius: 90px;
+    text-align: center;
+    line-height: 100%;
+    font-size: 30px;
+    line-height: 71px;
+}
+
+#instruction {
+	width: 80%;
+	height: 80%;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	background-color: #999;
+	border-radius: 30px;
+	font-size: 30px;
+}
+
+#instruction_hover {
+	width: 100%;
+	height: 60%;
+	position: absolute;
+	top: 20%;
+	background-color: #fff;
+	font-size: 30px;
+	text-align: center;
+	line-height: 319px;
+}
+#arrow {
+	@color:#999;
+	position: absolute;
+    width: 26%;
+    left: 37%;
+    top: 91%;
+    height: 20%;
+    font-size: 30px;
+    text-align: center;
+    line-height: 60px;
+    .arrow-body {
+    	width: 100%;
+	    left: 40%;
+	    background-color: @color;
+	    top: 91%;
+	    height: 60%
+    }
+    .arrow-head {
+    	@width: 300px;
+    	position: absolute;
+    	left: 50%;
+	    margin-left: -@width/2;
+	    width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 100px @width/2 0 @width/2;
+		border-color: @color transparent transparent transparent;
+    }
+}
+
+#big_logo {
+	width: 100%;
+	height: 100%;
+	@size: 500px;
+	#big_logo_image {
+		background: url('logo.png') center no-repeat;
+		background-size: 80%;
+		background-color: #fff;
+		position:absolute;
+		top:50%;
+		left: 50%;
+		
+		border-radius: @size/2;
+		height: @size;
+		width: @size;
+		margin-top: -@size/2;
+		margin-left: -@size/2;
+	}
+	#big_logo_text {
+		width: 100%;
+		position:absolute;
+		font-size: 38px;
+		color:#fff;
+		text-align: center;
+		top: 50%;
+		margin-top: @size/2 + 50px;
+	}
+}
