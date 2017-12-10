@@ -58,7 +58,10 @@ while continue_reading:
             MIFAREReader.MFRC522_Read(8)
             MIFAREReader.MFRC522_StopCrypto1()
             payload = {'message' : '{"tag":"rfid"}'}
-            r = requests.get('http://127.0.0.1:5000/_update', params=payload)
+            try:
+                r = requests.get('http://127.0.0.1:5000/_update', params=payload)
+            except:
+                pass
         else:
             print "Authentication error"
 
