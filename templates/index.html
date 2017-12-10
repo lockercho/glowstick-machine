@@ -16,6 +16,7 @@
 		<!--Import jQuery before materialize.js-->
 		<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+		<script type="text/javascript" src="instascan.min.js"></script>
 		<div id="return" class="z-depth-2">
 			返回
 		</div>
@@ -36,7 +37,7 @@
 			<div id="instruction" class="card">
 	            <div class="card-content">
 	              <span class="card-title">示意圖ㄉ標題</span>
-	              <p>圖片兒</p>
+	              <p><video id="preview"></video></p>
 	            </div>
 	            <div id="instruction_hover">
 	            	掃描成功
@@ -68,6 +69,12 @@
 		state.visible.instruction_hover = false;
 		state.visible.arrow = false;
 		state.text.lower_text = '';
+
+		// override for testing
+		state.mode = 'wait_qr';
+		state.visible.welcome = false;
+		state.visible.advertise = false;
+		state.visible.instruction = true;
 	}
 
 	// var state
@@ -99,9 +106,12 @@
 		console.log('MODE', state.mode)
 	}
 
-	function onQRCodeSuccess() {
+	function onQRCodeSuccess(content) {
+		var info = content.split('-');
 		state.visible.instruction_hover = true;
-		state.text.instruction_hover = '掃描成功';
+		state.text.instruction_hover = 
+			'掃描成功，您的座位是' + info[0] + '區' + info[1] + '排' + info[2] + '號';
+
 		render();
 		setTimeout(function() {
 			state.mode = 'wait_uu';
@@ -170,6 +180,7 @@
 		render()
 	})
 
+	// Config websocket
 	var socket = io.connect();
 	socket.on('connect', function() {
 	    socket.emit('message', 'I\'m connected!');
@@ -189,5 +200,25 @@
 			}
 		} catch(e) {}
 	});
+
+	// Config QR code scanner
+	var scanner = new Instascan.Scanner({ 
+		video: document.getElementById('preview') 
+	});
+    scanner.addListener('scan', function (content) {
+    	if(state.mode == 'wait_qr') {
+    		onQRCodeSuccess(content)
+    	}
+        console.log(content);
+    });
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error('No cameras found.');
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
 
 </script>
