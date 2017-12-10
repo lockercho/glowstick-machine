@@ -171,6 +171,7 @@
 	    socket.emit('message', 'I\'m connected!');
 	});
 	socket.on('event', function(message) {
+		console.log('event', message)
 		try {
 			var data = JSON.parse(message);
 			if(data.tag == 'rfid' && state.mode == 'wait_qr') {
