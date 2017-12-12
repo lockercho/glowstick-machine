@@ -22,6 +22,10 @@ def _update():
 	socketio.emit('event', message, broadcast=True)
 	return '1'
 
+@app.route('/check')
+def check():
+	return '1'
+
 if __name__ == '__main__':
     socketio.run(app, ssl_context='adhoc')
     # app.run(ssl_context='adhoc')
