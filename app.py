@@ -23,5 +23,7 @@ def _update():
 	return '1'
 
 if __name__ == '__main__':
-    socketio.run(app)
-    print('AAA')
+    socketio.run(app, ssl_context='adhoc')
+    # app.run(ssl_context='adhoc')
+
+    # print('AAA')
