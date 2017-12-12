@@ -114,7 +114,7 @@
 			state.visible.instruction_hover = false;
 			render();
 			// setTimeout(onUUCardDetected, 800)
-		}, 800);
+		}, TIMEOUT);
 	}
 
 	function onUUCardDetected() {
@@ -129,7 +129,7 @@
 		state.visible.instruction_hover = true;
 		state.text.instruction_hover = '扣款失敗，餘額不足';
 		render();
-		setTimeout(onUUCardSuccess, 800);
+		setTimeout(onUUCardSuccess, TIMEOUT);
 	}
 
 	function onUUCardSuccess() {
@@ -139,7 +139,7 @@
 		state.text.lower_text = '';
 		state.visible.arrow = true;
 		render();
-		setTimeout(onStickTaken, 800);
+		setTimeout(onStickTaken, TIMEOUT);
 	}
 
 	function onStickTaken() {
@@ -149,9 +149,10 @@
 		setTimeout(function() {
 			setDefaultState();
 			render();
-		}, 800);
+		}, TIMEOUT);
 	}
 	
+	var TIMEOUT = 2000;
 	var state = {};
 	setDefaultState();
 	render();
