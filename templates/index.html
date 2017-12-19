@@ -18,7 +18,6 @@
 		<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
 		<script type="text/javascript" src="instascan.min.js"></script>
 		<div id="return" class="z-depth-2">
-			返回
 		</div>
 		<div id="big_logo">
 			<div id="big_logo_image"></div>
@@ -27,27 +26,25 @@
 			</div>
 		</div>
 		<div id="main">
-			<div id="logo" class="z-depth-2"></div>
-			<div id="welcome" class="z-depth-4">
-				歡迎使用<br>
-				美麗ㄉ螢光棒ㄉ系統
+			<div id="logo"></div>
+			<div id="welcome">
 			</div>
-			<div id="advertise"></div>
+			<div id="advertise">
+				<img id="welcome_text" src="images/welcome_text.png">
+			</div>
+			<div id="functions">
+				<div class="borrow"></div>
+				<div class="return"></div>
+			</div>
 
 			<div id="instruction" class="card">
 	            <div class="card-content">
-	              <span class="card-title">示意圖ㄉ標題</span>
+	              <span class="card-title"></span>
 	              <p><video id="preview"></video></p>
 	            </div>
 	            <div id="instruction_hover">
-	            	掃描成功
+	            	
 	            </div>
-			</div>
-			<div id="arrow">
-				<div class="arrow-body">
-					請取棒
-				</div>
-				<div class="arrow-head"></div>
 			</div>
 		</div>
 		<div id="lower_text"></div>
@@ -60,16 +57,17 @@
 		state.mode = 'pending';
 		state.visible = {};
 		state.text = {};
+		state.class = {};
 		state.visible.main = true;
-		state.visible.big_logo = false;
+		state.visible.big_logo = true;
 		state.visible.welcome = true;
 		state.visible.return = false;
 		state.visible.advertise = true;
 		state.visible.instruction = false;
 		state.visible.instruction_hover = false;
 		state.visible.arrow = false;
+		state.visible.functions = false;
 		state.text.lower_text = '';
-
 	}
 
 	// var state
@@ -95,49 +93,69 @@
 		})
 	}
 
+	function handleClass() {
+		Object.keys(state.class).map(function(key) {
+			var $el = $('#' + key);
+			if(!$el) 
+				return;
+			if(state.class[key] == '') {
+				$el.removeClass();
+			} else {
+				$el.addClass(state.class[key]);
+			}
+		});
+	}
+
 	function render() {
 		handleText();
 		handleVisible();
+		handleClass();
 		console.log('MODE', state.mode)
 	}
 
 	function onQRCodeSuccess(content) {
 		var info = content.split('-');
 		state.visible.instruction_hover = true;
-		state.text.instruction_hover = 
-			'掃描成功，您的座位是' + info[0] + '區' + info[1] + '排' + info[2] + '號';
+		state.class.instruction_hover = '';
+		state.text.instruction_hover = '';
+		state.text.lower_text = '';
 
 		render();
 		setTimeout(function() {
 			state.mode = 'wait_uu';
-			state.text.lower_text = '請感應悠遊卡<br>XXXX';
+			state.text.lower_text = '';
 			state.visible.instruction_hover = false;
+			state.class.instruction = 'uu';
+			state.visible.preview = false;
 			render();
-			// setTimeout(onUUCardDetected, 800)
+			// setTimeout(onUUCardDetected, TIMEOUT)
 		}, TIMEOUT);
 	}
 
 	function onUUCardDetected() {
 		state.mode = 'read_uu';
 		state.visible.instruction_hover = true;
-		state.text.instruction_hover = '讀取中，請勿移動';
+		state.class.instruction_hover = 'loading';
+		state.text.instruction_hover = '';
 		render();
-		// setTimeout(onUUCardSuccess, 800);
+		
+		// setTimeout(onUUCardFailure, 800);
 	}
 
 	function onUUCardFailure() {
 		state.visible.instruction_hover = true;
-		state.text.instruction_hover = '扣款失敗，餘額不足';
+		state.class.instruction_hover = 'fail';
+		state.text.instruction_hover = '';
 		render();
-		setTimeout(onUUCardSuccess, TIMEOUT);
+		// setTimeout(onUUCardSuccess, TIMEOUT);
 	}
 
 	function onUUCardSuccess() {
 		state.mode = 'wait_take';
-		state.visible.instruction_hover = false;
+		state.visible.instruction_hover = true;
+		state.class.instruction_hover = 'success';
 		state.text.instruction_hover = '';
 		state.text.lower_text = '';
-		state.visible.arrow = true;
 		render();
 		setTimeout(onStickTaken, TIMEOUT);
 	}
@@ -145,6 +163,17 @@
 	function onStickTaken() {
 		state.visible.main = false;
 		state.visible.big_logo = true;
+		state.class.instruction_hover = '';
+		render();
+		setTimeout(function() {
+			setDefaultState();
+			render();
+		}, TIMEOUT);
+	}
+
+	function onUUCardReturnSuccess() {
+		state.mode = 'return_success';
+		state.class.instruction_hover = 'returned';
 		render();
 		setTimeout(function() {
 			setDefaultState();
@@ -152,7 +181,7 @@
 		}, TIMEOUT);
 	}
 	
-	var TIMEOUT = 2000;
+	var TIMEOUT = 1000;
 	var state = {};
 	setDefaultState();
 	render();
@@ -161,13 +190,37 @@
 	$('#welcome').on('click', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		state.mode = 'wait_function';
+		state.visible.functions = true;
+		render()
+	})
+
+	$('.borrow').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
 		state.mode = 'wait_qr';
 		state.visible.welcome = false;
 		state.visible.return = true;
 		state.visible.instruction = true;
-		state.text.lower_text = '請掃描QR code<br>XXXX';
+		state.visible.preview = true;
+		state.text.lower_text = '';
+		state.class.instruction = '';
 		render()
-	})
+	});
+
+	$('.return').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		state.mode = 'wait_uu_return';
+		state.visible.welcome = false;
+		state.visible.functions = false;
+		state.visible.return = true;
+		state.visible.instruction = true;
+		state.visible.preview = false;
+		state.visible.instruction_hover = true;
+		state.class.instruction_hover = 'loading';
+		render()
+	});
 
 	$('#return').on('click', function(e) {
 		e.preventDefault();
@@ -193,6 +246,9 @@
 			}
 			if(data.tag == 'rfid' && state.mode == 'read_uu') {
 				return onUUCardSuccess();
+			}
+			if(data.tag == 'rfid' && state.mode == 'wait_uu_return') {
+				return onUUCardReturnSuccess();
 			}
 		} catch(e) {}
 	});

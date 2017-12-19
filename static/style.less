@@ -10,17 +10,17 @@ body {
 
 #main {
 	width: 100%;
-	height: 65%;
+	height: 90%;
 	position: absolute;
-	top: 15%;
-	background-color: #fff;
+	top: 10%;
+	background-color: #000;
 }
 
 #logo {
-	@size: 120px;
-	background: url('logo.png') center no-repeat;
-	background-size: 80%;
-	background-color: #fff;
+	@size: 160px;
+	background: url('images/logo.png') center no-repeat;
+	background-size: 100%;
+	// background-color: #fff;
 	width: @size;
 	height: @size;
 	border-radius: @size / 2;
@@ -34,14 +34,17 @@ body {
 
 #welcome {
 	@size: 260px;
-	background-size: 80%;
-	background-color: #90caf9;
+	background: url('images/GO.png') center no-repeat;
+	background-size: 100%;
+	// background-size: 80%;
+	// background-color: #90caf9;
 	width: @size;
 	height: @size;
 	border-radius: @size;
 	position: absolute;
 	z-index:2;
-	bottom: -@size/3;
+	bottom: 18%;
+	margin-bottom: -@size/3;
 	left: 50%;
 	margin-left: -@size/2;
 	text-align: center;
@@ -52,29 +55,64 @@ body {
 
 #advertise {
 	width: 100%;
-	height: 100%;
-	background: url('advertise2.jpg') center no-repeat;
+	height: 80%;
+	background: url('images/bg_raw.png') center no-repeat;
 	background-size: auto 100%;
+	img {
+		@w: 500px;
+		width: @w;
+		position: absolute;
+		left:50%;
+		margin-left: -@w/2;
+		top:20%;
+	}
+}
+
+#functions {
+	@w: 500px;
+	position: absolute;
+	width: @w;
+	height: 200px;
+	background-image:url('images/functions.png');
+	background-size:100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	top:50%;
+	left: 50%;
+	margin-left: -@w/2;
+
+	.borrow {
+		float: left;
+		width: 50%;
+		height: 100%;
+	}
+
+	.return {
+		float: left;
+		width: 50%;
+		height: 100%;
+	}
+
 }
 
 #lower_text {
 	color: #fff;
-	font-size: 26px;
 	text-align: center;
 	width: 100%;
 	height: 20%;
 	position: absolute;
 	bottom: 0;
-	padding-top: 40px;
-	font-size: 30px;
+	padding-top: 70px;
+	font-size: 40px;
 	line-height: 48px;
 }
 
 #return {
-	background-color: #eeeeee;
+	background: url('images/return.png') center no-repeat;
+	background-size:100%;
 	position: absolute;
-	width: 180px;
-    height: 7%;
+	width: 120px;
+    height: 50px;
     top: 4%;
     left: 8%;
     border-radius: 90px;
@@ -85,26 +123,46 @@ body {
 }
 
 #instruction {
-	width: 80%;
-	height: 80%;
+	width: 100%;
+	height: 100%;
 	position: absolute;
-	top: 10%;
-	left: 10%;
-	background-color: #999;
+	top: 3%;
+	background: url('images/scan_qr.png') center no-repeat;
+	background-size: 90%;
+	background-position: center 0;
 	border-radius: 30px;
 	font-size: 30px;
+
+	&.uu {
+		background-image: url('images/scan_uucard.png');
+	}
 }
 
 #instruction_hover {
 	width: 100%;
-	height: 60%;
+	height: 100%;
 	position: absolute;
 	top: 20%;
-	background-color: #fff;
 	font-size: 30px;
 	text-align: center;
 	line-height: 319px;
+	background-image: url('images/scan_success.png');
+	background-repeat: no-repeat;
+	background-position: center 0 ;
+	&.loading {
+		background-image: url('images/loading.png');
+	}
+	&.fail {
+		background-image: url('images/fail.png');
+	}
+	&.success {
+		background-image: url('images/success.png');
+	}
+	&.returned {
+		background-image: url('images/return_success.png');
+	}
 }
+
 #arrow {
 	@color:#999;
 	position: absolute;
@@ -140,9 +198,9 @@ body {
 	height: 100%;
 	@size: 500px;
 	#big_logo_image {
-		background: url('logo.png') center no-repeat;
-		background-size: 80%;
-		background-color: #fff;
+		background: url('images/thanks.png') center no-repeat;
+		background-size: 100%;
+		// background-color: #fff;
 		position:absolute;
 		top:50%;
 		left: 50%;
@@ -165,7 +223,7 @@ body {
 }
 
 #preview {
-	margin-top:7%;
-	width: 90%;
-    margin-left: 5%;
+	margin-top:15%;
+	width: 80%;
+    margin-left: 10%;
 }

@@ -6,6 +6,7 @@ import json
 app = Flask(__name__, static_url_path='', static_folder='static',)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['DEBUG'] = True
 socketio = SocketIO(app)
 
 @socketio.on('message')
