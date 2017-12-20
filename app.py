@@ -19,6 +19,9 @@ def index():
 
 @app.route('/_update')
 def _update():
+	token = request.args.get('token', '')
+	if token != 'py_test':
+		return '0';
 	message = request.args.get('message', '')
 	socketio.emit('event', message, broadcast=True)
 	return '1'
@@ -28,8 +31,10 @@ def check():
 	return '1'
 
 if __name__ == '__main__':
-    # socketio.run(app, ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=80)
-    socketio.run(app, host='0.0.0.0', port=80)
+	context = ('sslforfree/ssl-bundle.crt', 'sslforfree/private.key')
+	socketio.run(app, ssl_context=context, host='0.0.0.0', port=443, debug=True)
+    # socketio.run(app, ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=5000)
+#    socketio.run(app, host='0.0.0.0', port=80)
     # app.run(ssl_context='adhoc')
 
     # print('AAA')

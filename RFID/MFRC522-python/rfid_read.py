@@ -57,9 +57,9 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
             MIFAREReader.MFRC522_Read(8)
             MIFAREReader.MFRC522_StopCrypto1()
-            payload = {'message' : '{"tag":"rfid"}'}
+            payload = {'token':'py_test','message' : '{"tag":"rfid"}'}
             try:
-                r = requests.get('https://127.0.0.1:5000/_update', params=payload, verify=False)
+                r = requests.get('https://glowstick.ddns.net/_update', params=payload, verify=False)
             except:
                 pass
         else:
