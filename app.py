@@ -28,7 +28,8 @@ def check():
 	return '1'
 
 if __name__ == '__main__':
-    socketio.run(app, ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0')
+    # socketio.run(app, ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=80)
+    socketio.run(app, host='0.0.0.0', port=80)
     # app.run(ssl_context='adhoc')
 
     # print('AAA')
