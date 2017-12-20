@@ -23236,16 +23236,13 @@ var Camera = function () {
 
               case 4:
                 devices = _context3.sent;
-
-                alert("device count: " + devices.length);
-
                 return _context3.abrupt('return', devices.filter(function (d) {
                   return d.kind === 'videoinput';
-                }).map(function (d) {
+                }).reverse().map(function (d) {
                   return new Camera(d.deviceId, cameraName(d.label));
                 }));
 
-              case 7:
+              case 6:
               case 'end':
                 return _context3.stop();
             }
